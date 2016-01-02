@@ -119,7 +119,7 @@ def cmd_is_valid():
 		if os.path.isfile(cmd_file)==True:
 			print"\n Command file has been validated. Waiting for cmand file...\n"
 			break
-			
+
 		else:
 			print "\n File %s does not exist. Please check and try again!\n"%cmd_file
 			continue
@@ -201,6 +201,17 @@ def open_ssh_conn(ip):
         print "* Invalid username or password. \n* Please check the username/password file or the device configuration!"
         print "* Closing program...\n"
 
+#Creating threads
+def create_threads():
+    threads = []
+    for ip in ip_list:
+        th = threading.Thread(target = open_ssh_conn, args = (ip,))   #args is a tuple with a single element
+        th.start()
+        threads.append(th)
+        
+    for th in threads:
+        th.join()
+
 
 #Call functions, wrapped in try/except blocks
 try:
@@ -217,6 +228,18 @@ except KeyboardInterrupt:
 
 try:
 	cmd_is_valid()
+except KeyboardInterrupt:
+	print "\n\n* Program aborted by user. Exiting...\n"
+	sys.exit()
+
+try:
+	open_ssh_conn()
+except KeyboardInterrupt:
+	print "\n\n* Program aborted by user. Exiting...\n"
+	sys.exit()
+
+try:
+	create_threads()
 except KeyboardInterrupt:
 	print "\n\n* Program aborted by user. Exiting...\n"
 	sys.exit()
