@@ -31,7 +31,6 @@ def ip_is_valid():
 		#Octet Check 
 		for ip in ip_list:
 			octet_check_ip=ip.split('.')
-			print octet_check_ip
 			#Unicast address check, exclude reserved ip addresses
 			if((len(octet_check_ip)==4) and (1<=int(octet_check_ip[0])<=223) and (int(octet_check_ip[0])!=127) and (int(octet_check_ip[0])!=169 or int(octet_check_ip[1])!=254) and (0<=int(octet_check_ip[1])<=255) and (0<=int(octet_check_ip[2])<=255) and (0<=int(octet_check_ip[3])<=255)):
 				check=True
