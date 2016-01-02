@@ -25,6 +25,7 @@ def ip_is_valid():
 			#Reach each line , save as list
 			ip_list=selected_ip_file.readlines()
 			selected_ip_file.close()
+
 		except IOError:
 			print "\n* File %s does not exist! Please check and try again!\n"%ip_file
 
@@ -39,11 +40,13 @@ def ip_is_valid():
 				print "\nThe IP address is INVALID! Please retry!\n"
 				check=False
 				continue
+
 		#Evaluate Check flag
 		if check==False:
 			continue
 		elif check==True:
 			break
+
 	#Check IP reachability
 	print "\n* Checking IP reachability. Please wait...\n"
 	check2=False
@@ -62,13 +65,71 @@ def ip_is_valid():
 				print"\n Ping to the following device has FAILED:",ip
 				check2=False
 				break
+
 		if check2==False:
 			print"\n*Please re-check IP address list or device.\n"
 			ip_is_valid()
 		elif check2==True:
 			print"\n*All devices are reachable. Waiting for username/password file...\n"
 			break
-ip_is_valid()
+
+#Checking username/password file
+def user_is_valid():
+	global user_file
+	while True:
+		#Prompt for username/password file
+		print "\n# # # # # # # # # # # # # # # # # # # # # # # # # # # \n"
+		user_file=raw_input("# Enter user/pass file name and extension: ")
+		print "\n# # # # # # # # # # # # # # # # # # # # # # # # # # # \n"
+
+		#Validate File existence 
+		if os.path.isfile(user_file)==True:
+			print"\n Username/Password file has been validated. Waiting for cmand file...\n"
+			break
+		else:
+			print "\n File %s does not exist. Please check and try again!\n"%user_file
+			continue
+
+#Checking command file
+def cmd_is_valid():
+	global cmd_file
+	while True:
+		#Prompt for command file
+		print "\n# # # # # # # # # # # # # # # # # # # # # # # # # # # \n"
+		user_file=raw_input("# Enter command file name and extension: ")
+		print "\n# # # # # # # # # # # # # # # # # # # # # # # # # # # \n"
+
+		#Validate File existence 
+		if os.path.isfile(cmd_file)==True:
+			print"\n Command file has been validated. Waiting for cmand file...\n"
+			break
+		else:
+			print "\n File %s does not exist. Please check and try again!\n"%cmd_file
+			continue
+
+#Call functions, wrapped in try/except blocks
+try:
+	ip_is_valid()
+except KeyboardInterrupt:
+	print "\n\n* Program aborted by user. Exiting...\n"
+	sys.exit()
+
+try:
+	user_is_valid()
+except KeyboardInterrupt:
+	print "\n\n* Program aborted by user. Exiting...\n"
+	sys.exit()
+
+try:
+	cmd_is_valid()
+except KeyboardInterrupt:
+	print "\n\n* Program aborted by user. Exiting...\n"
+	sys.exit()
+
+
+
+
+
 
 
 
